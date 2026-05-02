@@ -1,12 +1,14 @@
 'use client'
 
 import { useState, useCallback } from 'react'
+import { useTheme } from 'next-themes'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
+import { Sun, Moon } from 'lucide-react'
 
 export default function NavSimulator() {
   const [currentPage, setCurrentPage] = useState<string | null>(null)
@@ -104,6 +106,8 @@ export default function NavSimulator() {
     }
   }
 
+  const { theme, setTheme } = useTheme()
+
   return (
     <div className="min-h-screen bg-background p-8">
       <div className="max-w-4xl mx-auto space-y-6">
@@ -111,12 +115,24 @@ export default function NavSimulator() {
         {/* Header */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-2xl font-bold text-center">
-              Browser Navigation System
-            </CardTitle>
-            <p className="text-center text-muted-foreground">
-              Stack Data Structure Simulation
-            </p>
+            <div className="flex justify-between items-center">
+              <div className="flex-1">
+                <CardTitle className="text-2xl font-bold text-center">
+                  Browser Navigation System
+                </CardTitle>
+                <p className="text-center text-muted-foreground">
+                  Stack Data Structure Simulation
+                </p>
+              </div>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                aria-label="Toggle theme"
+              >
+                {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+              </Button>
+            </div>
           </CardHeader>
         </Card>
 
