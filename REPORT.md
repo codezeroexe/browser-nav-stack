@@ -5,9 +5,8 @@
 **Topic**: Stack Data Structure Implementation  
 **Course**: [Course Name]  
 **Group Members**:
-- Member1: [Name] (Roll No: [XXX])
-- Member2: [Name] (Roll No: [XXX])
-- Member3: [Name] (Roll No: [XXX])  
+- Sreehari S (PRN: 25030421045)
+- Ayush Waghmare (PRN: 25030421006)  
 **Date**: 2026-05-02  
 **Instructor**: [Instructor Name]
 
