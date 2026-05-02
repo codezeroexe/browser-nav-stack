@@ -8,7 +8,7 @@
 - Sreehari S (PRN: 25030421045)
 - Ayush Waghmare (PRN: 25030421006)  
 **Date**: 2026-05-02  
-**Instructor**: [Instructor Name]
+**Instructor**: Dr. Priti Kulkarni
 
 ---
 
