@@ -41,6 +41,8 @@ Open [http://localhost:3000](http://localhost:3000)
 5. Use "CLEAR" to reset all history
 
 ## Deployment
+Live: https://browsernav.vercel.app
+
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/codezeroexe/browser-nav-stack)
 
 Or push to GitHub and import to Vercel for zero-config deployment.
