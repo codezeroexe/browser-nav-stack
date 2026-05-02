@@ -3,7 +3,7 @@
 ## 1. Title Page
 **Project Title**: Browser Navigation System  
 **Topic**: Stack Data Structure Implementation  
-**Course**: [Course Name]  
+**Course**: Data Structures and Algorithms  
 **Group Members**:
 - Sreehari S (PRN: 25030421045)
 - Ayush Waghmare (PRN: 25030421006)  
