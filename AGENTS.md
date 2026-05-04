@@ -20,7 +20,6 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - `src/app/layout.tsx` — Inter font, ThemeProvider wrapper
 - `src/app/page.tsx` — renders NavSimulator
 - `src/components/NavSimulator.tsx` — main component (stack DS logic)
-- `vercel.json` — Vercel deploy config (build to `.next`)
 
 ## Gotchas
 - Tailwind v4 uses CSS `@import` + `@theme inline` (not v3 config file)
