@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
-import { Sun, Moon, Globe } from 'lucide-react'
+import { Sun, Moon } from 'lucide-react'
 
 export default function NavSimulator() {
   const [currentPage, setCurrentPage] = useState<string | null>(null)
@@ -198,26 +198,71 @@ export default function NavSimulator() {
           </CardHeader>
         </Card>
 
-        {/* URL Input */}
-        <Card>
-          <CardContent className="pt-6">
-            <div className="flex gap-2">
-              <Input
-                placeholder="Enter URL (e.g., https://www.google.com)"
-                value={inputUrl}
-                onChange={(e) => { setInputUrl(e.target.value); setError('') }}
-                onKeyDown={handleInputKeyDown}
-                className="flex-1"
-              />
-              <Button onClick={() => { visit(inputUrl); setInputUrl('') }}>
-                Visit
-              </Button>
-            </div>
-            {error && (
-              <p className="text-sm text-destructive mt-2">{error}</p>
-            )}
-          </CardContent>
-        </Card>
+        {/* Two-column: URL Input (left) + Stack Operations (right) */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+          {/* Left column: URL Input */}
+          <div className="space-y-6">
+            <Card>
+              <CardContent className="pt-6">
+                <div className="flex gap-2">
+                  <Input
+                    placeholder="Enter URL (e.g., https://www.google.com)"
+                    value={inputUrl}
+                    onChange={(e) => { setInputUrl(e.target.value); setError('') }}
+                    onKeyDown={handleInputKeyDown}
+                    className="flex-1"
+                  />
+                  <Button onClick={() => { visit(inputUrl); setInputUrl('') }}>
+                    Visit
+                  </Button>
+                </div>
+                {error && (
+                  <p className="text-sm text-destructive mt-2">{error}</p>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Right column: Stack Operations (LIFO) */}
+          <div>
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Stack Operations (LIFO)</CardTitle>
+                <p className="text-xs text-muted-foreground mb-2">
+                  LIFO: Last In, First Out. Top = most recent page. Bottom = oldest.
+                </p>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <p className="font-semibold mb-2">Back Stack (Top → Bottom):</p>
+                    <Separator className="mb-2" />
+                    {backStack.length === 0 ? (
+                      <p className="text-muted-foreground">[Empty]</p>
+                    ) : (
+                      <code className="text-xs">
+                        [{backStack[backStack.length - 1] || 'top'}, ..., {backStack[0] || 'bottom'}]
+                      </code>
+                    )}
+                  </div>
+                  <div>
+                    <p className="font-semibold mb-2">Forward Stack (Top → Bottom):</p>
+                    <Separator className="mb-2" />
+                    {forwardStack.length === 0 ? (
+                      <p className="text-muted-foreground">[Empty]</p>
+                    ) : (
+                      <code className="text-xs">
+                        [{forwardStack[forwardStack.length - 1] || 'top'}, ..., {forwardStack[0] || 'bottom'}]
+                      </code>
+                    )}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+        </div>
 
         {/* Navigation Buttons */}
         <div className="flex gap-2 justify-center">
@@ -278,7 +323,9 @@ export default function NavSimulator() {
           </div>
         )}
 
+        {/* Bottom: Back Stack + Forward Stack side by side */}
         <div className="grid grid-cols-2 gap-6">
+
           {/* Back Stack Display */}
           <Card>
             <CardHeader>
@@ -287,7 +334,7 @@ export default function NavSimulator() {
                 <Badge variant="secondary" className="ml-2">{backStack.length}</Badge>
               </CardTitle>
               <p className="text-xs text-muted-foreground mb-2">
-                Pages you can navigate back to. Last visited is on top (index 1). Click an item to jump to it.
+                Pages you can navigate back to. Last visited is on top (index 1). Click an item to jump.
               </p>
             </CardHeader>
             <CardContent>
@@ -355,43 +402,8 @@ export default function NavSimulator() {
               </ScrollArea>
             </CardContent>
           </Card>
-        </div>
 
-        {/* Stack Visualization (LIFO) */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">Stack Operations (LIFO)</CardTitle>
-            <p className="text-xs text-muted-foreground mb-2">
-              LIFO: Last In, First Out. Top = most recent page. Bottom = oldest.
-            </p>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-2 gap-4 text-sm">
-              <div>
-                <p className="font-semibold mb-2">Back Stack (Top → Bottom):</p>
-                <Separator className="mb-2" />
-                {backStack.length === 0 ? (
-                  <p className="text-muted-foreground">[Empty]</p>
-                ) : (
-                  <code className="text-xs">
-                    [{backStack[backStack.length - 1] || 'top'}, ..., {backStack[0] || 'bottom'}]
-                  </code>
-                )}
-              </div>
-              <div>
-                <p className="font-semibold mb-2">Forward Stack (Top → Bottom):</p>
-                <Separator className="mb-2" />
-                {forwardStack.length === 0 ? (
-                  <p className="text-muted-foreground">[Empty]</p>
-                ) : (
-                  <code className="text-xs">
-                    [{forwardStack[forwardStack.length - 1] || 'top'}, ..., {forwardStack[0] || 'bottom'}]
-                  </code>
-                )}
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        </div>
 
       </div>
     </div>
