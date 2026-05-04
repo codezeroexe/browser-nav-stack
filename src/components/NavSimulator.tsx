@@ -8,7 +8,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Sun, Moon } from 'lucide-react'
+import { useAccentColor, type AccentName } from '@/hooks/useAccentColor'
 
 export default function NavSimulator() {
   const [currentPage, setCurrentPage] = useState<string | null>(null)
@@ -159,6 +161,46 @@ export default function NavSimulator() {
   }
 
   const { theme, setTheme } = useTheme()
+  const { accent, setAccent, mounted: accentMounted, accentList } = useAccentColor()
+
+  // Color swatch component
+  const ColorSwatch = ({ name, label }: { name: AccentName, label: string }) => (
+    <button
+      key={name}
+      title={label}
+      aria-label={`Set accent to ${label}`}
+      onClick={() => setAccent(name)}
+      className={`w-6 h-6 rounded-full border-2 transition-transform hover:scale-110 ${
+        accent === name ? 'ring-2 ring-offset-2 ring-foreground scale-110' : ''
+      }`}
+      style={{ backgroundColor: getAccentColor(name), borderColor: getAccentBorder(name) }}
+    />
+  )
+
+  // Helper to get CSS color for swatch
+  const getAccentColor = (name: AccentName): string => {
+    const map: Record<AccentName, string> = {
+      'amber-gold': 'oklch(0.769 0.188 70.08)',
+      'teal-cyan': 'oklch(0.704 0.14 182.503)',
+      'violet-purple': 'oklch(0.645 0.246 280)',
+      'rose-pink': 'oklch(0.712 0.17 350)',
+      'emerald-green': 'oklch(0.696 0.17 162.48)',
+      'coral-orange': 'oklch(0.705 0.213 47.604)',
+    }
+    return map[name] || 'oklch(0.205 0 0)'
+  }
+
+  const getAccentBorder = (name: AccentName): string => {
+    const map: Record<AccentName, string> = {
+      'amber-gold': 'oklch(0.55 0.22 55)',
+      'teal-cyan': 'oklch(0.45 0.18 180)',
+      'violet-purple': 'oklch(0.40 0.28 275)',
+      'rose-pink': 'oklch(0.48 0.20 345)',
+      'emerald-green': 'oklch(0.42 0.20 155)',
+      'coral-orange': 'oklch(0.50 0.24 40)',
+    }
+    return map[name] || 'oklch(0.922 0 0)'
+  }
 
   return (
     <div className="min-h-screen bg-background p-8">
@@ -194,6 +236,35 @@ export default function NavSimulator() {
               >
                 {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
               </Button>
+
+              {/* Color Picker Popover */}
+              <Popover>
+                <PopoverTrigger>
+                  <Button variant="ghost" size="icon" aria-label="Choose accent color">
+                    <div
+                      className="w-5 h-5 rounded-full"
+                      style={{ backgroundColor: accent ? getAccentColor(accent) : 'var(--primary)' }}
+                    />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-3" align="end">
+                  <div className="text-xs text-muted-foreground mb-2">Personal Color</div>
+                  <div className="grid grid-cols-3 gap-2 mb-2">
+                    {accentList.map(name => (
+                      <ColorSwatch key={name} name={name} label={name.replace('-', ' ')} />
+                    ))}
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="w-full text-xs"
+                    onClick={() => setAccent(null)}
+                  >
+                    Reset
+                  </Button>
+              </PopoverContent>
+              </Popover>
+
             </div>
           </CardHeader>
         </Card>
